@@ -718,6 +718,7 @@ class Client(MFPBase):
             # get mfp info from search results
             a = item_div.xpath(".//div[@class='search-title-container']/a")[0]
             mfp_id = int(a.get("data-external-id"))
+            id = int(a.get("data-original-id"))
             mfp_name = a.text
             verif = (
                 True
@@ -734,7 +735,7 @@ class Client(MFPBase):
                 brand = " ".join(nutr_info[0:-2]).strip()
             calories = float(nutr_info[-1].replace("calories", "").strip())
             items.append(
-                FoodItem(mfp_id, mfp_name, brand, verif, calories, client=self)
+                FoodItem(mfp_id, mfp_name, brand, verif, calories, client=self, id=id)
             )
 
         return items

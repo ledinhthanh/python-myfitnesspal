@@ -24,6 +24,7 @@ class FoodItem(MFPBase):
         confirmations: Optional[int] = None,
         serving_sizes: Optional[List[types.ServingSizeDict]] = None,
         client: Optional["Client"] = None,
+        id: int = 0
     ):
         self._mfp_id = mfp_id
         self._name = name
@@ -36,6 +37,7 @@ class FoodItem(MFPBase):
         self._serving_sizes = serving_sizes
         self._client = client
         self._raw = None
+        self._id = id
 
     def _load_nutrition_details(self):
         return
@@ -58,6 +60,10 @@ class FoodItem(MFPBase):
         assert self._details is not None
 
         return self._details
+
+    @property
+    def id(self) -> int:
+        return self._id
 
     @property
     def raw(self) -> str:
