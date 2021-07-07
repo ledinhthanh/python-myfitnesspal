@@ -22,6 +22,7 @@ from .fooditem import FoodItem
 from .keyring_utils import get_password_from_keyring
 from .meal import Meal
 from .note import Note
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -778,9 +779,11 @@ class Client(MFPBase):
             "calories": calories,
             "confirmations": resp["confirmations"],
             "serving_sizes": resp["serving_sizes"],
+            "raw": json.dumps(resp)
         }
 
     def get_food_item_details(self, mfp_id: int) -> FoodItem:
+        print('get_food_item_details')
         details = self._get_food_item_details(mfp_id)
 
         # returning food item's details

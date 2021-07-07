@@ -20,7 +20,7 @@ class FoodItem(MFPBase):
         brand: Optional[str],
         verified: bool,
         calories: float,
-        details: Optional[FoodItemNutritionDict] = None,
+        details: Optional[FoodItemNutritionDict] = None,        
         confirmations: Optional[int] = None,
         serving_sizes: Optional[List[types.ServingSizeDict]] = None,
         client: Optional["Client"] = None,
@@ -35,6 +35,7 @@ class FoodItem(MFPBase):
         self._confirmations = confirmations
         self._serving_sizes = serving_sizes
         self._client = client
+        self._raw = None
 
     def _load_nutrition_details(self):
         if self._details:
@@ -47,6 +48,8 @@ class FoodItem(MFPBase):
         self._details = details["nutrition"]
         self._confirmations = details["confirmations"]
         self._serving_sizes = details["serving_sizes"]
+        self._serving_sizes = details["serving_sizes"]
+        self._raw = details["raw"]
 
     @property
     def details(self) -> FoodItemNutritionDict:
@@ -54,6 +57,10 @@ class FoodItem(MFPBase):
         assert self._details is not None
 
         return self._details
+
+    @property
+    def raw(self) -> str:
+        return self._raw
 
     @property
     def mfp_id(self) -> int:
