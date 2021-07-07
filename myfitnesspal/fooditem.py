@@ -38,6 +38,7 @@ class FoodItem(MFPBase):
         self._raw = None
 
     def _load_nutrition_details(self):
+        return
         if self._details:
             return
 

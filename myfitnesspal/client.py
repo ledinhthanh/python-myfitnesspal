@@ -783,7 +783,6 @@ class Client(MFPBase):
         }
 
     def get_food_item_details(self, mfp_id: int) -> FoodItem:
-        print('get_food_item_details')
         details = self._get_food_item_details(mfp_id)
 
         # returning food item's details
@@ -798,3 +797,30 @@ class Client(MFPBase):
             serving_sizes=details["serving_sizes"],
             client=self,
         )
+
+    def get_food_item_json(self, mfp_id: int) -> str:
+        # api call for food item's details
+        requested_fields = [
+            "nutritional_contents",
+            "serving_sizes",
+            "confirmations",
+        ]
+        query_string = parse.urlencode(
+            [
+                (
+                    "fields[]",
+                    name,
+                )
+                for name in requested_fields
+            ]
+        )
+        metadata_url = (
+            parse.urljoin(self.BASE_API_URL, f"/v2/foods/{mfp_id}") + "?" + query_string
+        )
+        result = self._get_request_for_url(metadata_url, send_token=True)
+        if not result.ok:
+            raise MyfitnesspalRequestFailed()
+
+        resp = result.json()["item"]
+
+        return json.dumps(resp)
